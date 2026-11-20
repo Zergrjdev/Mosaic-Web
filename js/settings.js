@@ -86,14 +86,14 @@ storage(el){const c=C(),list=c.connList(),def=(c.conn()||{}).u;
   else if(b.dataset.a==='del'){if(!confirm('Remove “'+(x.label||c.host(x.u))+'”? Projects already stored there keep working; it just disappears from this list.'))return;
    const rest=list.filter(q=>q.id!==id),dd=list.find(q=>q.u===def);await commit(rest,dd&&dd.id!==id?dd.id:(rest[0]&&rest[0].id),'Removed.')}};
  el.onchange=async e=>{const t=e.target;if(t.dataset.a!=='pool')return;const x=list.find(q=>q.id===t.closest('[data-id]').dataset.id);if(!x)return;
-  if(t.checked&&!confirm('The owner (egertonzac@gmail.com) will be able to see this connection’s URL and key and store other people’s project data and files in it. Continue?')){t.checked=false;return}
+  if(t.checked&&!confirm('The Mosaic owner will be able to see this connection’s URL and key and store other people’s project data and files in it. Continue?')){t.checked=false;return}
   x.pool=t.checked;const dd=list.find(q=>q.u===def);await commit(list,dd?dd.id:list[0].id,t.checked?'Shared as extra storage.':'No longer shared.')};
  el.onsubmit=async e=>{e.preventDefault();if(e.target.id!=='s-add')return;
   const u=el.querySelector('#sa-u').value.trim().replace(/\/+$/,''),k=el.querySelector('#sa-k').value.trim(),lb=el.querySelector('#sa-l').value.trim().slice(0,30),pool=el.querySelector('#sa-p').checked;
   if(list.some(x=>x.u===u)){say('That Supabase is already in the list.');return}
   say('Testing…');const m=await c.testConn(u,k);if(m){say(m);return}
   say('Checking protection…');const sc=await c.testSecure(u,k);if(sc==='cors'){say('Your Supabase blocked the extra security headers. Run the fallback SQL below, then try again.');return}
-  if(pool&&!confirm('The owner (egertonzac@gmail.com) will be able to see this connection’s URL and key and store other people’s project data and files in it. Continue?'))return;
+  if(pool&&!confirm('The Mosaic owner will be able to see this connection’s URL and key and store other people’s project data and files in it. Continue?'))return;
   const x={id:'c'+Date.now().toString(36),label:lb||c.host(u),u,k,sec:sc==='secure',pool};const l=[...list,x],dd=list.find(q=>q.u===def);
   await commit(l,dd?dd.id:x.id,sc==='secure'?'Added. Database-level protection is on.':'Added, but this Supabase still uses open access. Run the setup SQL to switch protection on.')};
  const dv=el.querySelector('#s-dev');if(dv)dv.onclick=()=>c.devtools();
@@ -187,7 +187,7 @@ plugins(el){
 
 /* ---------------- About ---------------- */
 about(el){
- el.innerHTML='<h3>About Mosaic</h3><div class="cd"><span>Version <b>'+esc(M.version)+'</b> · plugin API '+M.apiVersion+(window.MOSAIC_APP?' · desktop/mobile app':' · web')+'</span><div class="row"><a href="legal.html#terms" target="_blank" rel="noopener">Terms of Service</a><a href="legal.html#privacy" target="_blank" rel="noopener">Privacy Policy</a><a href="mailto:egertonzac@gmail.com">Contact</a></div></div>'
+ el.innerHTML='<h3>About Mosaic</h3><div class="cd"><span>Version <b>'+esc(M.version)+'</b> · plugin API '+M.apiVersion+(window.MOSAIC_APP?' · desktop/mobile app':' · web')+'</span><div class="row"><a href="legal.html#terms" target="_blank" rel="noopener">Terms of Service</a><a href="legal.html#privacy" target="_blank" rel="noopener">Privacy Policy</a><a href="issues.html" target="_blank" rel="noopener">Report an issue</a></div></div>'
  +'<div class="cd"><b>Privacy</b><span class="msg">'+MosaicIcons.svg('eye-off')+' <b>No telemetry.</b> Mosaic has no analytics, advertising or tracking and does not phone home. It only talks to Mosaic’s account service, the Supabase projects you connect, a Discord webhook if you add one, the servers that plugins you install from the Plugin store contact (each plugin lists them), and Google Fonts only if you pick a custom font in a design.</span><span class="msg">'+MosaicIcons.svg('bot')+' <b>No AI in Mosaic.</b> Mosaic has no AI of its own and sends nothing to an AI service. Plugins from the Plugin store are written by other people and reviewed before they are listed; one may add an AI assistant, but only after you install and turn it on, and each plugin lists the servers it can contact. Mosaic itself was built with help from AI tools.</span></div>'
  +'<div class="cd"><b>Connection check</b><span class="msg">If sign-in or saving fails, this tells you whether the Mosaic account server is reachable.</span><div class="row"><button id="s-chk">Check account server</button></div><p class="msg" id="s-cm" role="status"></p></div>';
  el.onclick=async e=>{if(e.target.id!=='s-chk')return;const m=el.querySelector('#s-cm'),c=C();m.textContent='Checking…';

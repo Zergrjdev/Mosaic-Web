@@ -1,6 +1,6 @@
 /* Mosaic service worker: lets the web app open offline and be installed (Chromebooks, desktop Chrome, Android).
    Pages are fetched fresh when online; everything else is served from cache and refreshed in the background. */
-const V = 'mosaic-sw-1';
+const V = 'mosaic-sw-2';
 self.addEventListener('install', e => { e.waitUntil(caches.open(V).then(c => c.addAll(['app.html', 'ui.css', 'manifest.webmanifest']).catch(() => {})).then(() => self.skipWaiting())) });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x => x !== V).map(x => caches.delete(x)))).then(() => self.clients.claim())) });
 self.addEventListener('fetch', e => {

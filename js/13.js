@@ -163,7 +163,7 @@ function home(){view='home';document.title='Mosaic';H.hidden=false;const gst=!!(
  +'<h2>Open a link</h2><form id="xhl"><label class="sr" for="xhk">Project link</label><input id="xhk" placeholder="Paste a project link" required><button>Open</button></form>'
  +'<p id="xhe" class="em" role="alert">'+NOTE+'</p>'
  +(use?'<p class="mu xhint">On this device: '+MosaicPack.fmt(use.total)+' used by Mosaic'+(use.projects.length?' across '+use.projects.length+' project'+(use.projects.length>1?'s':''):'')+'. <button type="button" class="xlk2" id="xperf">Storage and compression settings</button></p>':'')
- +'<footer class="lgl"><a href="legal.html#terms" target="_blank" rel="noopener">Terms</a> · <a href="legal.html#privacy" target="_blank" rel="noopener">Privacy</a> · <a href="legal.html#copyright" target="_blank" rel="noopener">Report content</a> · <a href="mailto:egertonzac@gmail.com">Contact</a></footer></main>';NOTE='';
+ +'<footer class="lgl"><a href="legal.html#terms" target="_blank" rel="noopener">Terms</a> · <a href="legal.html#privacy" target="_blank" rel="noopener">Privacy</a> · <a href="legal.html#copyright" target="_blank" rel="noopener">Report content</a> · <a href="issues.html" target="_blank" rel="noopener">Issues</a></footer></main>';NOTE='';
  if(LV)filterHome(LV)}
 function filterHome(q){q=String(q||'').trim().toLowerCase();H.querySelectorAll('.xg .pc[data-q]').forEach(c=>c.hidden=!!q&&!c.dataset.q.includes(q))}
 
@@ -183,7 +183,7 @@ function discover(){view='discover';document.title='Discover · Mosaic';H.hidden
 function shellDiscover(){H.innerHTML=hdr('discover')+'<main class="xdc"><div class="xt"><div><h1>Discover</h1><p class="mu xlead">Projects shared by the Mosaic community. Open one to look around, read-only.</p></div></div>'
  +'<div class="xdtools"><input id="xdq" type="search" placeholder="Search projects, descriptions or authors" aria-label="Search public projects" value="'+E(DV.q)+'"><select id="xds" aria-label="Sort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="az">Title A to Z</option><option value="by">Author</option></select><button type="button" id="xdr" title="Reload the list">Refresh</button></div>'
  +'<p class="mu xcount" id="xdn" role="status" aria-live="polite"></p><div id="xdy"></div><div class="xg" id="xdg"></div>'
- +'<p class="em">Want to be listed? Open one of your cloud projects on Home and choose “Make public…”. Something that should not be here? <a href="mailto:egertonzac@gmail.com?subject=Report%20a%20public%20Mosaic%20project">Report it</a>.</p></main>';
+ +'<p class="em">Want to be listed? Open one of your cloud projects on Home and choose “Make public…”. Something that should not be here? <a href="issues.html?type=report" target="_blank" rel="noopener">Report it</a>.</p></main>';
  H.querySelector('#xds').value=DV.sort}
 function paintDiscover(){if(view!=='discover')return;const g=H.querySelector('#xdg'),n=H.querySelector('#xdn');if(!g)return;
  if(DV.busy&&!DV.rows){g.innerHTML='<div class="xskel"></div><div class="xskel"></div><div class="xskel"></div>';n.textContent='Loading…';return}

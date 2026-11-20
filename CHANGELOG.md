@@ -1,3 +1,12 @@
+# Mosaic 1.3.1
+
+## Fixes
+- Opening a workspace no longer leaves the screen dimmed grey (a stuck fade-in on the side-panel backdrop).
+- Docs: the “On this page” list no longer floats over the text on phones using “desktop site”; it only floats beside the page on screens with a mouse.
+
+## Reporting
+- New **Report an issue** page (`issues.html`) that opens a pre-filled GitHub issue. It replaces the email contact links on the website, in the app, and in the Terms and Privacy text.
+
 # Mosaic 1.3
 
 ## Plugin store (new)

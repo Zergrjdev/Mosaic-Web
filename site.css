@@ -88,7 +88,7 @@ footer.sf{border-top:1px solid var(--bd);padding:36px 0;color:var(--mu);font-siz
 .doc-toc-m a{display:block;padding:6px 2px;color:var(--tx);text-decoration:none}
 html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 h2[id]{scroll-margin-top:84px}
-@media(min-width:1340px){.doc-toc{display:block;position:fixed;top:96px;right:max(20px,calc((100vw - 1180px)/2 - 230px));width:210px;max-height:calc(100vh - 130px);overflow:auto}.doc-toc b{display:block;font-size:12px;color:var(--mu);margin:0 0 8px 12px;text-transform:uppercase;letter-spacing:.06em}.doc-toc-m{display:none}}
+@media(min-width:1340px) and (pointer:fine){.doc-toc{display:block;z-index:5;background:var(--bg);border-radius:10px;padding:6px 0;position:fixed;top:96px;right:max(20px,calc((100vw - 1180px)/2 - 230px));width:210px;max-height:calc(100vh - 130px);overflow:auto}.doc-toc b{display:block;font-size:12px;color:var(--mu);margin:0 0 8px 12px;text-transform:uppercase;letter-spacing:.06em}.doc-toc-m{display:none}}
 
 /* motion: page load, scroll reveal, hover feedback. Everything is switched off for people who ask for less motion. */
 @view-transition{navigation:auto}
@@ -115,3 +115,10 @@ pre{position:relative}.cp{position:absolute;top:8px;right:8px;opacity:0;transiti
 pre:hover .cp,.cp:focus-visible{opacity:1}.cp.ok{color:var(--ac);transform:scale(1.05)}
 @media(pointer:coarse){.cp{opacity:1}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}@view-transition{navigation:none}}
+
+/* Report an issue */
+.iss{display:grid;gap:8px;margin:18px 0 0;max-width:640px}.iss label{font-weight:600;font-size:14px;margin-top:8px}
+.iss input[type=text],.iss select,.iss textarea{width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1px solid var(--bd);background:var(--pn,transparent);color:var(--tx);font:inherit}
+.iss textarea{resize:vertical;min-height:140px}.iss .iss-chk{display:flex;gap:8px;align-items:center;font-weight:400;color:var(--mu)}
+.iss .cta{margin-top:14px}.iss-warn{border:1px solid var(--bd);border-left:3px solid var(--ac,#b85c5c);border-radius:10px;padding:10px 14px;background:var(--pn,transparent)}
+.iss-err{color:var(--ac,#b85c5c);margin:4px 0 0}

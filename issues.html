@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-t="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'; object-src 'none'">
+<title>Report an issue · Mosaic</title>
+<meta name="description" content="Report a bug, suggest an idea or report content. Opens a pre-filled issue on GitHub.">
+<meta name="theme-color" content="#121316">
+<link rel="icon" href="favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta property="og:type" content="website"><meta property="og:site_name" content="Mosaic"><meta property="og:image" content="og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta property="og:title" content="About · Mosaic"><meta property="og:description" content="What Mosaic is, how it stores your data, that it has no telemetry and no AI of its own, and how it was made."><link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="fonts/fonts.css?v=71943813">
+<link rel="stylesheet" href="site.css?v=28de1b8c">
+<script src="js/01.js"></script><script src="js/icons.js?v=791aac75"></script><script src="js/site.js?v=c1393369"></script>
+<script src="config.js"></script>
+</head>
+<body data-page="issues">
+<a href="#main" style="position:absolute;left:-999px" onfocus="this.style.left='8px'">Skip to content</a>
+<header class="sh"><div class="shi">
+<a class="brand" href="./" aria-label="Mosaic home"><span class="mk" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Mosaic</a>
+<nav class="snav" aria-label="Main"><a href="./" data-p="home">Home</a><a href="discover.html" data-p="discover">Discover</a><a href="download.html" data-p="download">Download</a><a href="docs.html" data-p="docs">Docs</a><a href="about.html" data-p="about">About</a></nav>
+<div class="sacts"><button class="ic" id="sth" aria-label="Switch between light and dark mode" title="Light / dark"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 2v2" /> <path d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715" /> <path d="M16 12a4 4 0 0 0-4-4" /> <path d="m19 5-1.256 1.256" /> <path d="M20 12h2" /></svg></button><a class="btn ghost" id="sli" href="app.html?auth=login">Log in</a><a class="btn pri" id="ssu" href="app.html?auth=signup">Sign up</a><a class="btn pri" id="swk" href="app.html" hidden>Open workspace</a></div>
+<button class="ham" id="sham" aria-label="Menu" aria-expanded="false"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg></button>
+</div></header>
+<main id="main">
+<div class="page"><div class="wrap prose iss-wrap">
+<p class="lead">Found a bug, have an idea, or need to report something? Tell us here.</p>
+<h1>Report an issue</h1>
+<p>Fill this in and press <b>Open on GitHub</b>. A new issue opens on GitHub with your text already filled in; press <b>Submit new issue</b> there to post it. You need a free GitHub account to submit.</p>
+<p class="iss-warn"><b>Issues are public.</b> Anyone can read what you post. Do not include passwords, keys, private project links, or personal information.</p>
+<div class="iss" id="iss">
+<label for="iss-type">What is this about?</label>
+<select id="iss-type"><option value="bug">Something is broken (bug)</option><option value="idea">Idea or feature request</option><option value="question">Question or help</option><option value="report">Report a public project or content</option></select>
+<label for="iss-title">Short summary</label>
+<input id="iss-title" type="text" maxlength="120" placeholder="One line that says what this is">
+<label for="iss-body" id="iss-bl">What happened? What did you expect?</label>
+<textarea id="iss-body" rows="9" maxlength="4000" placeholder="Steps to reproduce, what you saw, what you expected."></textarea>
+<label class="iss-chk"><input id="iss-diag" type="checkbox" checked> Include my browser and screen size (helps us reproduce bugs)</label>
+<p class="iss-err" id="iss-err" role="alert" hidden></p>
+<div class="cta"><a class="btn pri lg" id="iss-go" href="#" target="_blank" rel="noopener">Open on GitHub</a><a class="btn lg" id="iss-all" href="#" target="_blank" rel="noopener">See existing issues</a></div>
+</div>
+<p style="color:var(--mu);font-size:14px;margin-top:22px">Read the <a href="legal.html#terms">Terms of Service</a> and <a href="legal.html#privacy">Privacy Policy</a>.</p>
+</div></div>
+</main>
+<footer class="sf"><div class="wrap"><span>© <span id="yr">2026</span> Mosaic</span>
+<nav aria-label="Footer"><a href="./">Home</a><a href="discover.html">Discover</a><a href="download.html">Download</a><a href="docs.html">Docs</a><a href="about.html">About</a><a href="legal.html#terms">Terms</a><a href="legal.html#privacy">Privacy</a><a href="issues.html">Issues</a></nav>
+<p class="ai"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Mosaic was built with help from AI tools. Mosaic has no AI of its own and no telemetry. Plugins from the store are optional and off until you install them. <a href="about.html#how">How it was made</a></span></p></div></footer>
+
+<script src="js/motion.js"></script><script src="js/issues.js"></script></body>
+</html>
