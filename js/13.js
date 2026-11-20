@@ -299,16 +299,17 @@ H.addEventListener('click',async e=>{const mi=H.querySelector('.xmi'),am=H.query
  const id=b.dataset.rn||b.dataset.rm;if(!id)return;const f=findP(id);if(!f.p)return;const p=f.p;
  try{if(b.dataset.rn){const t=prompt('Rename project',p.t);if(t&&t.trim()){p.t=t.trim().slice(0,60);f.lo?lpSave(f.l):await save(f.l);if(!f.lo&&p.s==='o')try{await SB.from('mosaic_projects').update({title:p.t}).eq('rid',p.r)}catch(x){}home()}}
   else if(confirm('Remove “'+p.t+'” from your account?\n\nThe project itself is not deleted. You can open it again from its link.')){await save(f.l.filter(x=>x!==p));home()}}catch(x){Q('#xhe').textContent=x.message}});
+let SLOW=0;
 (async()=>{try{
  if(!A){X.classList.remove('wait');X.innerHTML='<p style="padding:24px">Accounts need a connection to Supabase, which could not be reached. Reload to try again.</p>';return}
  const P=new URLSearchParams((Z.auth||'#').slice(1)),eh=P.get('error_description');
- try{if(P.get('access_token'))await A.setSession({access_token:P.get('access_token'),refresh_token:P.get('refresh_token')});const s=(await A.getSession()).data.session;U=s&&s.user}catch(e){}
- if(!U&&navigator.onLine===false){try{const cs=JSON.parse(localStorage['mosaic-acct']||'null');if(cs&&cs.user)U=cs.user}catch(e){}}
+ try{if(P.get('access_token'))await A.setSession({access_token:P.get('access_token'),refresh_token:P.get('refresh_token')});let slow=0;const s=(await Promise.race([A.getSession(),new Promise(r=>setTimeout(()=>{slow=1;r({data:{session:null}})},6000))])).data.session;U=s&&s.user;if(slow)SLOW=1}catch(e){}
+ if(!U&&(navigator.onLine===false||SLOW)){try{const cs=JSON.parse(localStorage['mosaic-acct']||'null');if(cs&&cs.user)U=cs.user}catch(e){}}
  if(!U&&isGuest()&&(Z.home||Z.local))U=guestUser();
  if(U&&P.get('type')==='recovery'){tab('new');await need('Choose a new password for '+U.email+'.')}
  else if(!U&&!(Z.pub&&Z.role==='r')){{const au=new URLSearchParams(location.search).get('auth');if(au==='signup')tab('up');else if(au==='login')tab('in')}if(eh)tab('reset');const w=need(Z.home?'Sign in to open your projects, or create an account.':'Sign in or create an account to open “'+(Z.n||'this project')+'” ('+(Z.role==='r'?'read-only':'can edit')+').');if(eh)Q('#xer').textContent=eh;await w}
  X.hidden=true;if(!U){guestBar();return}me.n=nm(U);try{window.Mosaic&&Mosaic.emit('account:ready',{})}catch(e){}try{localStorage.mosaicName=me.n;nmT();beat()}catch(e){}
- if(P.get('type')==='signup')NOTE='Your email is confirmed. Welcome to Mosaic!';await consent();await devCheck();Z.home?((()=>{let v='';try{v=sessionStorage['mosaic:view']||'';sessionStorage.removeItem('mosaic:view')}catch(e){}return v==='discover'})()?discover():home()):await reg()}finally{try{window.MZboot&&MZboot.done()}catch(e){}}})();
+ if(P.get('type')==='signup')NOTE='Your email is confirmed. Welcome to Mosaic!';await consent();await Promise.race([devCheck(),new Promise(r=>setTimeout(r,5000))]);Z.home?((()=>{let v='';try{v=sessionStorage['mosaic:view']||'';sessionStorage.removeItem('mosaic:view')}catch(e){}return v==='discover'})()?discover():home()):await reg()}finally{try{window.MZboot&&MZboot.done()}catch(e){}}})();
 {const h0=home;home=function(){const r=h0.apply(this,arguments);try{loadPub()}catch(e){}return r}}
 window.MosaicCtx={get U(){return U},get A(){return A},get SB(){return SB},get DEV(){return DEV},isGuest:()=>!!(U&&U.guest),get POOL(){return POOL},M,E,OWNER,SQL,SQL2,host,rx,testConn,testSecure,secret,modal,closeM,connList,conn,saveConns,devtools,home:refreshView,discover,nm,lpList,lpSave,lpClean,list,
  act:(kind,rid)=>{if(kind==='clear')clearModal(rid);else if(kind==='delete')deleteModal(rid);else if(kind==='cloud')toCloudModal(rid);else if(kind==='local')makeLocalModal(rid)}};
