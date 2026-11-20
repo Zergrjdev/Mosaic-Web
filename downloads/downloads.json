@@ -1,0 +1,96 @@
+{
+  "version": "1.3.0",
+  "platforms": {
+    "windows": {
+      "label": "Windows",
+      "note": "Windows 10 or newer",
+      "builds": {
+        "x64": {
+          "url": "",
+          "size": ""
+        },
+        "arm64": {
+          "url": "",
+          "size": "",
+          "note": "Uses the Microsoft WebView2 Runtime, which is part of Windows 11 and of up-to-date Windows 10. If Mosaic asks for it, install it from Microsoft and start Mosaic again."
+        },
+        "x86": {
+          "url": "",
+          "size": "",
+          "note": "Uses the Microsoft WebView2 Runtime, which is part of Windows 11 and of up-to-date Windows 10. If Mosaic asks for it, install it from Microsoft and start Mosaic again."
+        }
+      }
+    },
+    "macos": {
+      "label": "macOS",
+      "note": "macOS 12 or newer",
+      "builds": {
+        "arm64": {
+          "url": "",
+          "size": ""
+        },
+        "x64": {
+          "url": "",
+          "size": ""
+        }
+      }
+    },
+    "linux": {
+      "label": "Linux",
+      "note": "AppImage (.deb for 32-bit)",
+      "builds": {
+        "x64": {
+          "url": "",
+          "size": ""
+        },
+        "arm64": {
+          "url": "",
+          "size": ""
+        },
+        "arm": {
+          "url": "",
+          "size": "",
+          "note": "A .deb package. Install it with: sudo apt install ./<downloaded file> Works on Raspberry Pi OS 32-bit for the Pi 2 and newer."
+        },
+        "x86": {
+          "url": "",
+          "size": "",
+          "note": "A .deb package. Install it with: sudo apt install ./<downloaded file>"
+        }
+      }
+    },
+    "android": {
+      "label": "Android",
+      "note": "Android 8 or newer \u00b7 APK",
+      "builds": {
+        "arm64": {
+          "url": "",
+          "size": ""
+        },
+        "arm": {
+          "url": "",
+          "size": ""
+        },
+        "x64": {
+          "url": "",
+          "size": ""
+        },
+        "x86": {
+          "url": "",
+          "size": ""
+        }
+      }
+    },
+    "ios": {
+      "label": "iPhone & iPad",
+      "note": "iOS 15 or newer \u00b7 unsigned build",
+      "builds": {
+        "universal": {
+          "url": "",
+          "size": "",
+          "note": "This build is not signed by Apple, so iOS will not run it as it is. Re-sign it with your own Apple ID using AltStore, Sideloadly, TrollStore or Xcode, then install it. It is not on the App Store yet."
+        }
+      }
+    }
+  }
+}

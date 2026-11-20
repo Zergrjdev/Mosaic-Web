@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en" data-t="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'; object-src 'none'">
+<title>Plugin API docs · Mosaic</title>
+<meta name="description" content="How to build, test and publish a Mosaic plugin: manifest, permissions, the plugin API and the Plugin store.">
+<meta name="theme-color" content="#121316">
+<link rel="icon" href="favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta property="og:type" content="website"><meta property="og:site_name" content="Mosaic"><meta property="og:image" content="og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta property="og:title" content="Plugin API docs · Mosaic"><meta property="og:description" content="How to build, test and publish a Mosaic plugin: manifest, permissions, the plugin API and the Plugin store."><link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="fonts/fonts.css?v=71943813">
+<link rel="stylesheet" href="site.css?v=m0t10n7a">
+<script src="js/01.js"></script><script src="js/icons.js?v=791aac75"></script><script src="js/site.js?v=c1393369"></script>
+</head>
+<body data-page="docs">
+<a href="#main" style="position:absolute;left:-999px" onfocus="this.style.left='8px'">Skip to content</a>
+<header class="sh"><div class="shi">
+<a class="brand" href="./" aria-label="Mosaic home"><span class="mk" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Mosaic</a>
+<nav class="snav" aria-label="Main"><a href="./" data-p="home">Home</a><a href="discover.html" data-p="discover">Discover</a><a href="download.html" data-p="download">Download</a><a href="docs.html" data-p="docs">Docs</a><a href="about.html" data-p="about">About</a></nav>
+<div class="sacts"><button class="ic" id="sth" aria-label="Switch between light and dark mode" title="Light / dark"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 2v2" /> <path d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715" /> <path d="M16 12a4 4 0 0 0-4-4" /> <path d="m19 5-1.256 1.256" /> <path d="M20 12h2" /></svg></button><a class="btn ghost" id="sli" href="app.html?auth=login">Log in</a><a class="btn pri" id="ssu" href="app.html?auth=signup">Sign up</a><a class="btn pri" id="swk" href="app.html" hidden>Open workspace</a></div>
+<button class="ham" id="sham" aria-label="Menu" aria-expanded="false"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg></button>
+</div></header>
+<main id="main">
+<div class="page"><div class="wrap prose doc">
+<p class="lead">Build a plugin for Mosaic, test it, and share it through the Plugin store.</p>
+<h1>Plugin API</h1>
+<p>Plugins extend Mosaic on the website <strong>and</strong> in the desktop/mobile app with the same code. A plugin can add toolbar buttons,
+side panels, command-palette commands, settings sections and export formats, react to events, and read or change the project
+(when the user allows it). You can share a plugin with everybody through the <strong>Plugin store</strong>.</p>
+<blockquote>
+<p><strong>Plugins are trusted code.</strong> They run inside the page with the same access as Mosaic itself. The permissions below limit the
+<em>plugin API</em> and are shown to the user, but they are not a security sandbox. Reviewers read every store plugin before it is
+listed; users should still only turn on plugins they trust.</p>
+</blockquote>
+<h2 id="quick-start">Quick start</h2>
+<p>A plugin is one JavaScript file plus a manifest. This one adds a toolbar button that counts the items on the page:</p>
+<pre><code class="language-js">Mosaic.plugin({
+  id: 'item-counter',                      // must match the manifest
+  activate(api) {
+    api.toolbar.add({
+      label: 'Count', title: 'Count the items on this page', where: 'any',
+      run: () =&gt; api.toast(api.project.items().length + ' items on this page')
+    });
+  }
+});
+</code></pre>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;item-counter&quot;,
+  &quot;name&quot;: &quot;Item counter&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;apiVersion&quot;: 1,
+  &quot;author&quot;: &quot;You&quot;,
+  &quot;description&quot;: &quot;Adds a button that counts the items on the page.&quot;,
+  &quot;permissions&quot;: [&quot;project.read&quot;, &quot;ui.toolbar&quot;]
+}
+</code></pre>
+<p>To try it locally put both in your plugins folder (see below). To share it, use <strong>Settings → Plugins → Submit a plugin</strong>.</p>
+<h2 id="where-plugins-come-from">Where plugins come from</h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>How it gets there</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Plugin store</strong></td>
+<td>Anyone with an account submits it, a reviewer approves it, anyone can install it from Settings → Plugins → Plugin store. Installed copies live on the user's device and are re-checked against the approved SHA-256 every time Mosaic starts.</td>
+</tr>
+<tr>
+<td><strong>Bundled</strong> (website)</td>
+<td>A folder under <code>plugins/</code> listed in <code>plugins/index.json</code>.</td>
+</tr>
+<tr>
+<td><strong>User folder</strong> (desktop/mobile app)</td>
+<td>A folder with <code>manifest.json</code> and its scripts in the app's plugins folder (shown in Settings → Plugins). Press <em>Reload plugin list</em>.</td>
+</tr>
+</tbody>
+</table>
+<p>For bundled and user-folder plugins the manifest also needs <code>"entry": "my-plugin/main.js"</code> (relative to <code>plugins/</code>, or to the plugin folder in the app).
+Store plugins do not have an <code>entry</code>: the code is stored with the submission.</p>
+<h2 id="manifest">Manifest</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>3 to 41 characters: <code>a-z</code>, <code>0-9</code>, <code>-</code>. Must match the id in <code>Mosaic.plugin({ id })</code>. First come, first served in the store; only the person who owns an id can publish new versions of it.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>yes</td>
+<td>Shown to users (up to 60 characters).</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>yes</td>
+<td><code>1.0.0</code> style. Raise it for every new submission.</td>
+</tr>
+<tr>
+<td><code>apiVersion</code></td>
+<td>no</td>
+<td>The plugin API you built against (currently <code>1</code>).</td>
+</tr>
+<tr>
+<td><code>author</code>, <code>description</code></td>
+<td>no (store: description required)</td>
+<td>Shown in the store. Description: 10 to 400 characters.</td>
+</tr>
+<tr>
+<td><code>permissions</code></td>
+<td>no</td>
+<td>What the plugin asks for (list below). Users see this before installing.</td>
+</tr>
+<tr>
+<td><code>hosts</code></td>
+<td>with <code>network</code></td>
+<td>Servers it may contact: <code>https://api.example.com</code>, or <code>http://127.0.0.1:*</code> for any port on this computer.</td>
+</tr>
+<tr>
+<td><code>userHosts</code></td>
+<td>no</td>
+<td><code>true</code> lets the user approve extra <strong>https</strong> servers one by one (for example a custom AI provider).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lifecycle">Lifecycle</h2>
+<pre><code class="language-js">Mosaic.plugin({
+  id: 'my-plugin',
+  activate(api) { /* called when the user turns it on */ },
+  deactivate() { /* optional cleanup; everything registered through `api` is removed for you */ }
+});
+</code></pre>
+<p>Each plugin gets its own <code>api</code> object. Everything you register through it (toolbar buttons, panels, commands, settings, hooks, event
+listeners) is removed automatically when the user turns the plugin off or uninstalls it.</p>
+<h2 id="permissions">Permissions</h2>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Lets the plugin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project.read</code></td>
+<td>read the current page, its items, the selection, the page list and page text (copies)</td>
+</tr>
+<tr>
+<td><code>project.write</code></td>
+<td>update or add items, add pages, append to docs</td>
+</tr>
+<tr>
+<td><code>ui.toolbar</code></td>
+<td>add buttons to the top toolbar</td>
+</tr>
+<tr>
+<td><code>ui.settings</code></td>
+<td>add a section to its card in Settings → Plugins</td>
+</tr>
+<tr>
+<td><code>ui.panel</code></td>
+<td>add a docked side panel</td>
+</tr>
+<tr>
+<td><code>ui.commands</code></td>
+<td>add commands to the command palette (Ctrl+Shift+P)</td>
+</tr>
+<tr>
+<td><code>export.targets</code></td>
+<td>add an export format</td>
+</tr>
+<tr>
+<td><code>export.hooks</code></td>
+<td>modify the export manifest</td>
+</tr>
+<tr>
+<td><code>storage</code></td>
+<td>keep small settings of its own (<code>api.storage</code>)</td>
+</tr>
+<tr>
+<td><code>network</code></td>
+<td>call servers through <code>api.fetch</code> (see Network access)</td>
+</tr>
+</tbody>
+</table>
+<p>Ask only for what you use. Reviewers reject plugins that ask for more than they need.</p>
+<h2 id="api-reference-api">API reference (<code>api</code>)</h2>
+<p><strong>General</strong>
+- <code>api.version</code> : the Mosaic version.
+- <code>api.on(event, fn)</code> : events: <code>page:open</code>, <code>item:put</code>, <code>export:before</code>, <code>export:done</code>, <code>comment:added</code>, <code>page:created</code>, <code>prefs:change</code>, <code>plugins:changed</code>.
+- <code>api.toast(text)</code> : a short message at the bottom of the screen.
+- <code>api.prefs.get(path, default)</code> : read Mosaic preferences (read only).
+- <code>api.storage.get(key, default)</code>, <code>.set(key, value)</code>, <code>.remove(key)</code> : per-plugin storage on this device (<code>storage</code>). Values are JSON. It is never synced to the user's account, so it is the right place for API keys.</p>
+<p><strong>Project</strong> (<code>project.read</code> unless noted)
+- <code>api.project.page()</code> : <code>{ id, name, type: 'b' | 'd' | 't', kind }</code> for the open page.
+- <code>api.project.items()</code>, <code>.selection()</code> : copies of the items on the page / the selected items.
+- <code>api.project.pages()</code> : <code>[{ id, name, type: 'board' | 'doc' | 'table', parent }]</code>.
+- <code>api.project.pageText(pageId, maxChars)</code> : the text of a page as plain text.
+- <code>api.project.search(query, max)</code> : matching lines across all pages.
+- <code>api.project.updateItem(id, patch)</code>, <code>.addItem(obj)</code> (<code>project.write</code>). <code>addItem</code> accepts <code>p</code> to target another page.
+- <code>api.project.addPage({ name, type: 'board' | 'doc' | 'table' })</code> (<code>project.write</code>) : returns the new page id.
+- <code>api.project.appendDoc(pageId, [{ t, x }])</code> (<code>project.write</code>) : <code>t</code> is <code>p</code>, <code>h1</code>, <code>h2</code>, <code>h3</code>, <code>todo</code>, <code>q</code> or <code>code</code>; <code>x</code> is the text.
+- <code>api.project.openPage(pageId)</code>, <code>.select(itemIds)</code> : open a page, or select items on the open page.
+- <code>api.project.table(pageId)</code> : <code>{ columns, rows }</code> for a table page. <code>api.project.addTableRows(pageId, rows)</code> (<code>project.write</code>) : <code>rows</code> is an array of arrays; returns how many were added.
+- <code>api.project.renamePage(pageId, name)</code>, <code>.deleteItem(id)</code> (<code>project.write</code>) : locked items cannot be deleted. Deleting an item also removes its connectors.
+- <code>api.project.snapshot()</code> : <code>{ pages, items }</code>, copies of the whole project, for backups and reports.</p>
+<p><strong>User interface</strong>
+- <code>api.toolbar.add({ label, icon, title, where: 'design' | 'any', run })</code> (<code>ui.toolbar</code>) : <code>icon</code> is optional, the name of a built-in icon such as <code>'star'</code> or <code>'download'</code>.
+- <code>api.ui.panel({ id, title, render(element), onOpen, onClose })</code> (<code>ui.panel</code>) : returns <code>{ open, close, toggle, isOpen, el }</code>. Draw your UI into <code>element</code>.
+- <code>api.commands.add({ id, title, hint, group, run })</code> (<code>ui.commands</code>) : appears in the command palette.
+- <code>api.settings.add({ title, render(element) })</code> (<code>ui.settings</code>) : a section on your card in Settings → Plugins.
+- <code>api.ui.confirm(text, { title, ok, cancel })</code> : an animated yes/no dialog; resolves to <code>true</code> or <code>false</code>. No permission needed.
+- <code>api.ui.prompt(label, default, { title, ok, multiline })</code> : asks for text; resolves to the text, or <code>null</code> if cancelled.
+- <code>api.ui.modal({ title, render(element, close), buttons })</code> (<code>ui.panel</code>) : a dialog with your own content. Each button is <code>{ label, primary, value, run(element, close), keepOpen }</code>. Returns <code>{ close(value), closed }</code>, where <code>closed</code> is a promise.</p>
+<p><strong>Environment and helpers</strong>
+- <code>api.env.isTouch</code>, <code>.isPhone</code>, <code>.isApp</code>, <code>.readOnly</code>, <code>.theme</code> (<code>'light'</code> or <code>'dark'</code>) : read these at the moment you need them; they stay current if the window is resized or the theme changes.
+- <code>api.clipboard.writeText(text)</code> : copy text; resolves to <code>true</code> or <code>false</code>. Browsers only allow it right after a click or tap.
+- <code>api.download(name, data, mime)</code> (<code>export.targets</code>) : save a file from a string, Uint8Array or Blob.</p>
+<p><strong>Export</strong>
+- <code>api.hooks.add('export:manifest', (layout, ctx) =&gt; layout)</code> (<code>export.hooks</code>) : may return a modified layout.
+- <code>api.exports.addTarget({ id, label, build(ctx) })</code> (<code>export.targets</code>) : <code>ctx = { layout, files, design, format }</code>. <code>files</code> is an array of
+  <code>{ name, data }</code> (<code>data</code> is a Uint8Array or string). Push extra files, or return a replacement array. The result is zipped and saved.</p>
+<p><strong>Network</strong> (<code>network</code>)
+- <code>api.fetch(url, init)</code> : like <code>fetch</code>, but only for allowed servers (next section).
+- <code>api.network.isAllowed(url)</code>, <code>await api.network.request(url)</code>, <code>api.network.approved()</code>, <code>api.network.revoke(origin)</code>.</p>
+<h2 id="network-access">Network access</h2>
+<p><code>api.fetch</code> only allows:
+1. the addresses in the manifest's <code>hosts</code>, and
+2. if the manifest sets <code>"userHosts": true</code>, <strong>https servers the user approved</strong>. Call <code>await api.network.request(url)</code> before using a new
+   server: Mosaic asks the user once, remembers the origin, and Settings lets them revoke it.</p>
+<p>Plain <code>http</code> works only for this computer (<code>http://127.0.0.1:*</code>, <code>http://localhost:*</code>). Use <code>api.fetch</code>, never <code>fetch</code>, <code>XMLHttpRequest</code> or
+<code>WebSocket</code> directly: direct calls skip the user's approval and reviewers will reject them.</p>
+<p>The page's Content-Security-Policy (<code>connect-src</code> in <code>app.html</code>, <code>_headers</code> and <code>kCsp</code> in <code>src/AssetServer.cpp</code>) allows any https host plus
+localhost, so that plugins can reach providers the user picks. That means the policy itself no longer limits where a script on the page can
+send data: the manifest list and the per-server approval are the guard. Site operators who do not want this can replace <code>https:</code> in <code>connect-src</code>
+with a fixed list of hosts. Store plugins are loaded from <code>blob:</code> URLs, which is why <code>script-src</code> contains <code>blob:</code>.</p>
+<h2 id="writing-good-plugins">Writing good plugins</h2>
+<ul>
+<li><strong>Escape text</strong> from projects before putting it into <code>innerHTML</code> (or use <code>textContent</code>). Project text can contain anything.</li>
+<li>Use Mosaic's CSS variables (<code>var(--bg)</code>, <code>var(--tx)</code>, <code>var(--bd)</code>, <code>var(--ac)</code>, <code>var(--hv)</code>, <code>var(--mu)</code>) so your UI follows light and dark themes.</li>
+<li>Make controls reachable with the keyboard and give buttons labels (<code>aria-label</code>).</li>
+<li>Ask before changing the user's project, and make changes easy to see. Never send project text anywhere unless the user asked.</li>
+<li>Keep secrets (API keys) in <code>api.storage</code>, never in your code.</li>
+<li>Do not touch other parts of the page, the login session or <code>localStorage</code> directly. Anything that needs more than the API belongs in a feature request.</li>
+</ul>
+<h2 id="publishing-to-the-plugin-store">Publishing to the Plugin store</h2>
+<ol>
+<li>Open <strong>Settings → Plugins → Submit a plugin</strong> (you need an account; guests can browse and install but not submit).</li>
+<li>Fill in the form or load your <code>manifest.json</code> and <code>main.js</code>. Press <strong>Check</strong>: it validates the manifest, matches the id in your code,
+   and shows the automatic scan a reviewer will see.</li>
+<li><strong>Submit for review.</strong> Your plugin is <em>pending</em> and visible only to you and to reviewers. Follow it under <strong>My submissions</strong>.</li>
+<li>A reviewer (the owner or anyone with Dev tools) reads the code and approves or rejects it with a note. Approved plugins appear in the store for everyone.</li>
+<li>To change anything, submit a <strong>new version</strong> (raise <code>version</code>). Submitted code can never be edited, so what was reviewed is exactly what people install.</li>
+</ol>
+<p>Limits: code up to 300,000 characters, one JavaScript file, at most 5 submissions waiting at once, description 10 to 400 characters.
+Pending and rejected submissions can be deleted by you at any time. Approved plugins can be removed by reviewers (for example if a problem
+turns up); people who installed it see "no longer in the store" next time they open the store.</p>
+<h3>What reviewers check</h3>
+<ul>
+<li>It does what the description says and nothing else.</li>
+<li>Permissions and hosts are the minimum needed; <code>userHosts</code> only when users really choose their own servers.</li>
+<li>All network access goes through <code>api.fetch</code>; nothing reads the login session, cookies or other storage; no <code>eval</code> or <code>new Function</code>;
+  no loading of other scripts; no navigation or pop-ups.</li>
+<li>Text from projects is escaped; changes to projects are announced or confirmed.</li>
+<li>No hidden behaviour, no tracking, no obfuscated or minified-beyond-reading code.</li>
+</ul>
+<p>The review screen runs an automatic scan (network calls outside <code>api.fetch</code>, account access, <code>eval</code>, direct storage, HTML injection…) and
+highlights the lines. The scan helps; it does not replace reading the code.</p>
+<h2 id="dialogs-and-phones">Dialogs, phones and touch</h2>
+<p>Mosaic runs on phones too, so build for small screens from the start.</p>
+<ul>
+<li>Use <code>api.ui.confirm</code>, <code>api.ui.prompt</code> and <code>api.ui.modal</code> instead of <code>alert</code>, <code>confirm</code> and <code>prompt</code>. They animate, trap the Escape key, and turn into bottom sheets on phones.</li>
+<li>Check <code>api.env.isPhone</code> before you put a wide layout in a panel. Panels take the full screen width on phones.</li>
+<li>Make tap targets at least 44 px tall, and never rely on hover.</li>
+<li>Use Mosaic's colour variables (<code>var(--tx)</code>, <code>var(--mu)</code>, <code>var(--bd)</code>, <code>var(--hv)</code>, <code>var(--pn)</code>, <code>var(--ac)</code>) so your UI follows light and dark mode.</li>
+</ul>
+<h2 id="recipes">Recipes</h2>
+<p><strong>Ask before you change something</strong></p>
+<pre><code>api.commands.add({ id: 'clean', title: 'Delete empty notes', run: async () =&gt; {
+  const empty = api.project.items().filter(i =&gt; i.ty === 'note' &amp;&amp; !String(i.t || '').trim());
+  if (!empty.length) return api.toast('No empty notes.');
+  if (!await api.ui.confirm('Delete ' + empty.length + ' empty notes?', { ok: 'Delete' })) return;
+  empty.forEach(i =&gt; api.project.deleteItem(i.id));
+} });</code></pre>
+<p><strong>Export a table as CSV</strong> (needs <code>project.read</code> and <code>export.targets</code>)</p>
+<pre><code>api.commands.add({ id: 'csv', title: 'Download this table as CSV', run: () =&gt; {
+  const page = api.project.page();
+  if (!page || page.type !== 'table') return api.toast('Open a table page first.');
+  const t = api.project.table(page.id);
+  const q = v =&gt; '"' + String(v).replace(/"/g, '""') + '"';
+  api.download(page.name + '.csv', [t.columns, ...t.rows].map(r =&gt; r.map(q).join(',')).join('\n'), 'text/csv');
+} });</code></pre>
+<p><strong>Show a dialog with your own content</strong></p>
+<pre><code>api.ui.modal({ title: 'Project summary',
+  render(el) { el.textContent = api.project.pages().length + ' pages'; },
+  buttons: [{ label: 'Copy', run: () =&gt; api.clipboard.writeText('Pages: ' + api.project.pages().length), keepOpen: true }, { label: 'Close', primary: true }] });</code></pre>
+<h2 id="api-versions">API versions</h2>
+<p>The plugin API is versioned with <code>apiVersion</code> in your manifest. Version <strong>2</strong> adds the dialogs, <code>api.env</code>, <code>api.clipboard</code>, <code>api.download</code>, toolbar icons, and the extra <code>api.project</code> methods above. Version 1 plugins keep working unchanged. A plugin that sets <code>apiVersion: 2</code> will be refused by an older Mosaic with a message asking the user to update.</p>
+<h2 id="reference-plugins">Reference plugins</h2>
+<ul>
+<li><code>plugins/example-asset-report</code> : a bundled example that adds an export format.</li>
+<li><code>store-plugins/ai-assistant</code> : the AI assistant &amp; MCP plugin (Ollama, Claude, ChatGPT and more; MCP tool servers). It uses panels, commands,
+  settings, <code>network</code> with <code>userHosts</code>, and shows how to ask before changing a project.</li>
+</ul>
+<h2 id="item-data-exported-for-engines">Item data exported for engines</h2>
+<p>Engine integrations (Unity, Godot, Unreal) are meant to be built as plugins using this API. The data they need is already exported:
+<code>layout.json</code> (schema <code>mosaic.ui-layout/1</code>) with positions, sizes, pivots, 9-slice borders, and an optional sprite atlas (<code>atlas.json</code>).
+Each asset has <code>name</code>, <code>x</code>, <code>y</code>, <code>w</code>, <code>h</code> (px, origin top-left, y down), <code>pad</code>, <code>pivot {x,y}</code> (0-1), optional <code>nineSlice {l,t,r,b}</code>, and <code>files</code> per scale.
+Items carry these extra properties for plugins: <code>xn</code> (export name), <code>nx</code> (skip export), <code>sl</code> (9-slice <code>[l,t,r,b]</code>), <code>pv</code> (pivot name).</p>
+<h2 id="setting-up-the-store-site-operators">Setting up the store (site operators)</h2>
+<p>Run <code>setup/plugin-store.sql</code> once in the <strong>central</strong> Supabase (after <code>central-setup.sql</code>). It creates the <code>mosaic_plugins</code> table, row-level
+security (anyone reads approved plugins; signed-in users submit; only developers review) and freezes submitted code. Optionally run
+<code>setup/seed-ai-assistant.sql</code> to publish the AI assistant plugin as an approved plugin.</p>
+<div class="cta" style="margin-top:28px"><a class="btn pri lg" href="app.html">Open the workspace</a><span class="muted"> Settings → Plugins → Plugin store / Submit a plugin</span></div></div></div>
+</main>
+<footer class="sf"><div class="wrap"><span>© <span id="yr">2026</span> Mosaic</span>
+<nav aria-label="Footer"><a href="./">Home</a><a href="discover.html">Discover</a><a href="download.html">Download</a><a href="docs.html">Docs</a><a href="about.html">About</a><a href="legal.html#terms">Terms</a><a href="legal.html#privacy">Privacy</a><a href="mailto:egertonzac@gmail.com">Contact</a></nav>
+<p class="ai"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Mosaic was built with help from AI tools. Mosaic has no AI of its own and no telemetry. Plugins from the store are optional and off until you install them. <a href="about.html#how">How it was made</a></span></p></div></footer>
+
+<script src="js/docs-toc.js"></script><script src="js/motion.js"></script></body>
+</html>

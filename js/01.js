@@ -1,0 +1,1 @@
+if(top!==self){try{top.location=self.location}catch(e){document.documentElement.style.display="none"}}

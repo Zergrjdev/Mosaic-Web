@@ -1,0 +1,31 @@
+{
+  "id": "ai-assistant",
+  "name": "AI assistant & MCP",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "author": "Mosaic",
+  "description": "Chat about your project with Ollama (on your computer), Claude, ChatGPT, Gemini, OpenRouter and more, and connect MCP tool servers. Nothing is sent until you press Send, and every change to your project asks first.",
+  "permissions": [
+    "project.read",
+    "project.write",
+    "ui.toolbar",
+    "ui.settings",
+    "ui.panel",
+    "ui.commands",
+    "network",
+    "storage"
+  ],
+  "hosts": [
+    "http://127.0.0.1:*",
+    "http://localhost:*",
+    "https://api.anthropic.com",
+    "https://api.openai.com",
+    "https://generativelanguage.googleapis.com",
+    "https://openrouter.ai",
+    "https://api.groq.com",
+    "https://api.mistral.ai",
+    "https://api.deepseek.com",
+    "https://api.x.ai"
+  ],
+  "userHosts": true
+}
