@@ -1,22 +1,22 @@
 {
-  "version": "1.3.0",
+  "version": "0.0.1-alpha",
   "platforms": {
     "windows": {
       "label": "Windows",
       "note": "Windows 10 or newer",
       "builds": {
         "x64": {
-          "url": "",
-          "size": ""
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-windows-x64.zip",
+          "size": "154 MB"
         },
         "arm64": {
-          "url": "",
-          "size": "",
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-windows-arm64.zip",
+          "size": "1 MB",
           "note": "Uses the Microsoft WebView2 Runtime, which is part of Windows 11 and of up-to-date Windows 10. If Mosaic asks for it, install it from Microsoft and start Mosaic again."
         },
         "x86": {
-          "url": "",
-          "size": "",
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-windows-x86.zip",
+          "size": "1 MB",
           "note": "Uses the Microsoft WebView2 Runtime, which is part of Windows 11 and of up-to-date Windows 10. If Mosaic asks for it, install it from Microsoft and start Mosaic again."
         }
       }
@@ -26,12 +26,12 @@
       "note": "macOS 12 or newer",
       "builds": {
         "arm64": {
-          "url": "",
-          "size": ""
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-macos-universal.dmg",
+          "size": "55 MB"
         },
         "x64": {
-          "url": "",
-          "size": ""
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-macos-universal.dmg",
+          "size": "55 MB"
         }
       }
     },
@@ -40,21 +40,21 @@
       "note": "AppImage (.deb for 32-bit)",
       "builds": {
         "x64": {
-          "url": "",
-          "size": ""
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-linux-x64.AppImage",
+          "size": "116 MB"
         },
         "arm64": {
-          "url": "",
-          "size": ""
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-linux-arm64.AppImage",
+          "size": "111 MB"
         },
         "arm": {
-          "url": "",
-          "size": "",
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/mosaic_0.0.1-alpha_armhf.deb",
+          "size": "1 MB",
           "note": "A .deb package. Install it with: sudo apt install ./<downloaded file> Works on Raspberry Pi OS 32-bit for the Pi 2 and newer."
         },
         "x86": {
-          "url": "",
-          "size": "",
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/mosaic_0.0.1-alpha_i386.deb",
+          "size": "1 MB",
           "note": "A .deb package. Install it with: sudo apt install ./<downloaded file>"
         }
       }
@@ -64,20 +64,20 @@
       "note": "Android 8 or newer \u00b7 APK",
       "builds": {
         "arm64": {
-          "url": "",
-          "size": ""
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-android-arm64-v8a.apk",
+          "size": "22 MB"
         },
         "arm": {
-          "url": "",
-          "size": ""
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-android-armeabi-v7a.apk",
+          "size": "20 MB"
         },
         "x64": {
-          "url": "",
-          "size": ""
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-android-x86_64.apk",
+          "size": "22 MB"
         },
         "x86": {
-          "url": "",
-          "size": ""
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-android-x86.apk",
+          "size": "24 MB"
         }
       }
     },
@@ -86,8 +86,8 @@
       "note": "iOS 15 or newer \u00b7 unsigned build",
       "builds": {
         "universal": {
-          "url": "",
-          "size": "",
+          "url": "https://github.com/Zergrjdev/Mosaic-App/releases/download/v0.0.1-alpha/Mosaic-ios-unsigned.ipa",
+          "size": "12 MB",
           "note": "This build is not signed by Apple, so iOS will not run it as it is. Re-sign it with your own Apple ID using AltStore, Sideloadly, TrollStore or Xcode, then install it. It is not on the App Store yet."
         }
       }
